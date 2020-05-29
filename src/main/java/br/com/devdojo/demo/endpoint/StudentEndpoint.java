@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("students")
 public class StudentEndpoint {
@@ -24,6 +26,11 @@ public class StudentEndpoint {
         return new ResponseEntity<>(studentRepository.findAll(), HttpStatus.OK);
     }
 
+    public  ResponseEntity<?> findStudentByName(@PathVariable String name) {
+        List<Student> studentList = studentRepository.findByName(name);
+        return new ResponseEntity<>(studentList,HttpStatus.OK);
+    }
+
     //@RequestMapping(method = RequestMethod.GET, path = "/{id}")
     @GetMapping(path = "/{id}")
     public ResponseEntity<?> getStudentById(@PathVariable("id") Long id) {
@@ -36,7 +43,7 @@ public class StudentEndpoint {
     //@RequestMapping(method = RequestMethod.POST)
     @PostMapping
     public  ResponseEntity<?> save(@RequestBody Student student) {
-        return  new ResponseEntity<>(studentRepository.save(student), HttpStatus.OK);
+        return  new ResponseEntity<>(studentRepository.save(student), HttpStatus.CREATED);
     }
 
     //@RequestMapping(method = RequestMethod.DELETE)
